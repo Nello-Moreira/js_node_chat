@@ -1,0 +1,8 @@
+{
+	"name": "js_node_chat",
+	"version": "1.0.0",
+	"description": "A laboratory to learn more about js and node",
+	"license": "MIT",
+	"author": "Nello-Moreira <g.moreira1@outlook.com>",
+	"type": "module"
+}

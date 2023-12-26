@@ -1,0 +1,7 @@
+.env
+dist/
+tmp/
+.vscode/*
+node_modules/
+.yarn/
+*.orig
