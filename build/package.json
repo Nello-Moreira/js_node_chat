@@ -1,0 +1,7 @@
+{
+	"name": "@js_node_chat/build",
+	"type": "module",
+	"dependencies": {
+		"@js_node_chat/server": "workspace:*"
+	}
+}

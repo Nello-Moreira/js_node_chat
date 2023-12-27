@@ -4,6 +4,11 @@
 	"description": "A laboratory to learn more about js and node",
 	"license": "MIT",
 	"author": "Nello-Moreira <g.moreira1@outlook.com>",
+	"packageManager": "yarn@3.2.4",
+	"workspaces": [
+		"build",
+		"server"
+	],
 	"devDependencies": {
 		"@types/eslint": "8.56.0",
 		"@typescript-eslint/eslint-plugin": "6.16.0",
