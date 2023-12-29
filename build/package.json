@@ -1,7 +1,14 @@
 {
 	"name": "@js_node_chat/build",
-	"type": "module",
+	"scripts": {
+		"runner": "node -r esbuild-runner/register ./index.ts"
+	},
 	"dependencies": {
-		"@js_node_chat/server": "workspace:*"
+		"@js_node_chat/server": "workspace:*",
+		"esbuild": "0.19.10",
+		"esbuild-runner": "2.2.2"
+	},
+	"devDependencies": {
+		"@types/node": "20.10.5"
 	}
 }
