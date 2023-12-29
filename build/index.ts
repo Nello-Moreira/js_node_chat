@@ -1,3 +1,4 @@
+import type { BuildResult, Plugin } from 'esbuild';
 import { exec } from 'node:child_process';
 import path from 'node:path';
 import { promisify } from 'node:util';
@@ -6,6 +7,7 @@ const promiseExec = promisify(exec);
 
 type Builder = {
 	destroy: () => Promise<void>;
+	build: (arg?: { plugins?: Plugin[] }) => Promise<BuildResult>;
 };
 const builders: Record<KnownProjects[number], Builder> = {
 	server: server(),
@@ -51,7 +53,9 @@ async function main(): Promise<void> {
 			);
 			break;
 		case 'build':
-			console.log('not implemented');
+			await Promise.all(
+				projects.map(async (p: KnownProjects[number]) => builders[p].build())
+			);
 			break;
 		case 'run':
 			console.log('not implemented');
