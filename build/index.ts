@@ -8,6 +8,7 @@ const promiseExec = promisify(exec);
 type Builder = {
 	destroy: () => Promise<void>;
 	build: (arg?: { plugins?: Plugin[] }) => Promise<BuildResult>;
+	run: () => Promise<void>;
 };
 const builders: Record<KnownProjects[number], Builder> = {
 	server: server(),
@@ -47,19 +48,10 @@ async function main(): Promise<void> {
 		case 'destroyAll':
 			await promiseExec(`rm -rf ${path.join(__dirname, '../dist')}`);
 			break;
-		case 'destroy':
+		default:
 			await Promise.all(
-				projects.map(async (p: KnownProjects[number]) => builders[p].destroy())
+				projects.map(async (p: KnownProjects[number]) => builders[p][command]())
 			);
-			break;
-		case 'build':
-			await Promise.all(
-				projects.map(async (p: KnownProjects[number]) => builders[p].build())
-			);
-			break;
-		case 'run':
-			console.log('not implemented');
-			break;
 	}
 	console.log('>>> Done');
 }

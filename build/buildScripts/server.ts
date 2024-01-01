@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import type { BuildOptions, Plugin } from 'esbuild';
 import { build } from 'esbuild';
-import { exec } from 'node:child_process';
+import { exec, spawn } from 'node:child_process';
 import path from 'node:path';
 
-export const serverPath = path.join(__dirname, '../src/server');
 const serverDistDirPath = path.join(__dirname, '../dist/server');
+const serverDistFile = path.join(serverDistDirPath, './index.js');
 
 export function server() {
 	const config: BuildOptions = {
-		entryPoints: [`${serverPath}/index.ts`],
+		entryPoints: [path.join(__dirname, '../src/server/index.ts')],
 		bundle: true,
-		outdir: serverDistDirPath,
+		outfile: serverDistFile,
 		assetNames: 'assets/[name].[hash]',
 		platform: 'node',
 		metafile: true,
@@ -27,6 +27,11 @@ export function server() {
 				exec(`rm -rf ${serverDistDirPath}`, () => {
 					resolve();
 				});
+			}),
+		run: async () =>
+			new Promise<void>(resolve => {
+				const p = spawn('yarn', ['node', serverDistFile], { stdio: 'inherit' });
+				p.once('close', resolve);
 			}),
 	};
 }
