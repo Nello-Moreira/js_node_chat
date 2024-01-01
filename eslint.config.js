@@ -19,6 +19,7 @@ module.exports = [
 			'@typescript-eslint/consistent-type-definitions': 'off',
 			'@typescript-eslint/prefer-readonly-parameter-types': 'off',
 			'@typescript-eslint/explicit-function-return-type': 'off',
+			'@typescript-eslint/naming-convention': 'warn',
 		},
 	},
 	{

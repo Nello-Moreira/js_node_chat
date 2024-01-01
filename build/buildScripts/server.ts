@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import type { BuildOptions, Plugin } from 'esbuild';
-import { build } from 'esbuild';
+import { build, context } from 'esbuild';
 import { exec, spawn } from 'node:child_process';
 import path from 'node:path';
 
@@ -33,5 +33,23 @@ export function server() {
 				const p = spawn('yarn', ['node', serverDistFile], { stdio: 'inherit' });
 				p.once('close', resolve);
 			}),
+		'hot-reload': async (arg?: { plugins?: Plugin[] }) => {
+			const c = await context({ ...config, plugins: arg?.plugins });
+			await c.watch();
+			return new Promise<void>(resolve => {
+				const n = spawn(
+					'nodemon',
+					[serverDistFile, '--watch', serverDistFile, '--delay', '1s'],
+					{ stdio: ['inherit', 'inherit', 'inherit', 'ipc'] }
+				);
+				n.on('exit', () => {
+					c.dispose()
+						.then(resolve)
+						.catch(() => {
+							console.log('Failed to exit');
+						});
+				});
+			});
+		},
 	};
 }

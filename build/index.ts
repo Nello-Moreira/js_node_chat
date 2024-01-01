@@ -9,11 +9,18 @@ type Builder = {
 	destroy: () => Promise<void>;
 	build: (arg?: { plugins?: Plugin[] }) => Promise<BuildResult>;
 	run: () => Promise<void>;
+	'hot-reload': (arg?: { plugins?: Plugin[] }) => Promise<void>;
 };
 const builders: Record<KnownProjects[number], Builder> = {
 	server: server(),
 };
-const knownCommands = ['build', 'run', 'destroy', 'destroyAll'] as const;
+const knownCommands = [
+	'build',
+	'run',
+	'destroy',
+	'destroy-all',
+	'hot-reload',
+] as const;
 const knownProjects = ['server'] as const;
 type KnownCommands = (typeof knownCommands)[number];
 type KnownProjects = typeof knownProjects;
@@ -45,7 +52,7 @@ async function main(): Promise<void> {
 		return;
 	}
 	switch (command) {
-		case 'destroyAll':
+		case 'destroy-all':
 			await promiseExec(`rm -rf ${path.join(__dirname, '../dist')}`);
 			break;
 		default:
