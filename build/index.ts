@@ -1,8 +1,11 @@
-import type { BuildResult, Plugin } from 'esbuild';
+import dotenv from 'dotenv';
+import type { BuildResult, Plugin, PluginBuild } from 'esbuild';
 import { exec } from 'node:child_process';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { server } from './buildScripts/server';
+
+dotenv.config({ path: path.join(__dirname, '../.env') });
 const promiseExec = promisify(exec);
 
 type Builder = {
@@ -35,6 +38,29 @@ function isKnownProject(project: string): project is KnownProjects[number] {
 function isKnownProjectList(list: readonly string[]): list is KnownProjects {
 	return list.filter(isKnownProject).length === list.length;
 }
+function logPlugin(
+	project: string,
+	onStartMessage = '',
+	onEndMessage = ''
+): Plugin {
+	return {
+		name: 'log',
+		setup: (build: PluginBuild) => {
+			if (onStartMessage)
+				build.onStart(() => {
+					console.log(`>>> ${project}: ${onStartMessage}\n`);
+				});
+			if (onEndMessage)
+				build.onEnd(buildResult => {
+					if (buildResult.errors.length > 0) {
+						console.error(buildResult.errors);
+						return;
+					}
+					console.log(`>>> ${project}: ${onEndMessage}\n`);
+				});
+		},
+	};
+}
 async function main(): Promise<void> {
 	// eslint-disable-next-line @typescript-eslint/no-magic-numbers
 	const [command, ...projects] = process.argv.slice(2);
@@ -57,7 +83,11 @@ async function main(): Promise<void> {
 			break;
 		default:
 			await Promise.all(
-				projects.map(async (p: KnownProjects[number]) => builders[p][command]())
+				projects.map(async (p: KnownProjects[number]) =>
+					builders[p][command]({
+						plugins: [logPlugin(p, 'building...', 'build completed')],
+					})
+				)
 			);
 	}
 	console.log('>>> Done');
