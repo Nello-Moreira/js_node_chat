@@ -20,6 +20,11 @@ module.exports = [
 			'@typescript-eslint/prefer-readonly-parameter-types': 'off',
 			'@typescript-eslint/explicit-function-return-type': 'off',
 			'@typescript-eslint/naming-convention': 'warn',
+			'@typescript-eslint/no-magic-numbers': 'warn',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{ varsIgnorePattern: '^_', argsIgnorePattern: '^_' },
+			],
 		},
 	},
 	{
