@@ -4,6 +4,13 @@
 	"description": "A laboratory to learn more about js and node",
 	"license": "MIT",
 	"author": "Nello-Moreira <g.moreira1@outlook.com>",
+	"scripts": {
+		"builder-build": "yarn workspace @js_node_chat/build build",
+		"builder-run": "yarn workspace @js_node_chat/build run",
+		"builder-destroy": "yarn workspace @js_node_chat/build destroy",
+		"builder-destroy-all": "yarn workspace @js_node_chat/build destroy-all",
+		"builder-hot-reload": "yarn workspace @js_node_chat/build hot-reload"
+	},
 	"packageManager": "yarn@3.2.4",
 	"workspaces": [
 		"build",

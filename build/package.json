@@ -1,7 +1,12 @@
 {
 	"name": "@js_node_chat/build",
 	"scripts": {
-		"runner": "node -r esbuild-runner/register ./index.ts"
+		"runner": "node -r esbuild-runner/register ./index.ts",
+		"build": "yarn runner build",
+		"run": "yarn runner run",
+		"destroy": "yarn runner destroy",
+		"destroy-all": "yarn runner destroy-all",
+		"hot-reload": "yarn runner hot-reload "
 	},
 	"dependencies": {
 		"@js_node_chat/server": "workspace:*",
