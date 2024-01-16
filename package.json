@@ -9,11 +9,15 @@
 		"builder-run": "yarn workspace @js_node_chat/build run",
 		"builder-destroy": "yarn workspace @js_node_chat/build destroy",
 		"builder-destroy-all": "yarn workspace @js_node_chat/build destroy-all",
-		"builder-hot-reload": "yarn workspace @js_node_chat/build hot-reload"
+		"builder-hot-reload": "yarn workspace @js_node_chat/build hot-reload",
+		"migration-create": "yarn workspace @js_node_chat/migrations create-file",
+		"migration-migrate": "yarn workspace @js_node_chat/migrations migrate",
+		"migration-rollback": "yarn workspace @js_node_chat/migrations rollback"
 	},
 	"packageManager": "yarn@3.2.4",
 	"workspaces": [
 		"build",
+		"migrations",
 		"src/*"
 	],
 	"devDependencies": {
