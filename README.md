@@ -2,6 +2,16 @@
 
 The purpose of this project is to implement a chat without using frameworks for front-end and back-end. By doing that, I want to learn more about streams, websockets, and other communication design patterns.
 
+## How to run
+To run a builded version of this project, run the following command at the root of the project:
+```
+yarn docker-up
+```
+Or you can run in "hot-reload" mode:
+```
+yarn docker-up-hot-reload
+```
+
 ## Next Features
 
 - Run through docker

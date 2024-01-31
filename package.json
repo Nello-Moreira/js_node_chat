@@ -12,7 +12,12 @@
 		"builder-hot-reload": "yarn workspace @js_node_chat/build hot-reload",
 		"migration-create": "yarn workspace @js_node_chat/migrations create-file",
 		"migration-migrate": "yarn workspace @js_node_chat/migrations migrate",
-		"migration-rollback": "yarn workspace @js_node_chat/migrations rollback"
+		"migration-rollback": "yarn workspace @js_node_chat/migrations rollback",
+		"docker": "docker-compose --project-name js_node_chat -f ./infrastructure/docker-compose.yaml",
+		"docker-up": "yarn docker up --remove-orphans --build -d",
+		"docker-down": "yarn docker down --remove-orphans",
+		"docker-up-hot-reload": "yarn docker -f ./infrastructure/docker-compose-hot-reload.yaml up --remove-orphans",
+		"docker-down-hot-reload": "yarn docker -f ./infrastructure/docker-compose-hot-reload.yaml down --remove-orphans"
 	},
 	"packageManager": "yarn@3.2.4",
 	"workspaces": [

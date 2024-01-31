@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  webserver:
+    container_name: webserver-hot-reload
+    build:
+      target: hot-reload
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../src/:/app/src/

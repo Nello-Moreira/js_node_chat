@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  webserver:
+    container_name: webserver
+    build:
+      context: ../
+      dockerfile: ./infrastructure/server/Dockerfile
+      target: builded
+    ports:
+      - '8080:8080'
+    env_file: ../.env
+    environment:
+      - PORT=8080
