@@ -1,6 +1,27 @@
 version: '3.8'
 
 services:
+  db:
+    container_name: node_chat_db
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
+    ports:
+      - 5432:5432
+    networks:
+      - db
+    volumes:
+      - node_chat_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=node_chat
+      - POSTGRES_PASSWORD=node_chat
+      - POSTGRES_DB=postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
+      interval: 1s
+      timeout: 5s
+      retries: 5
+
   webserver:
     container_name: webserver
     build:
@@ -9,6 +30,18 @@ services:
       target: builded
     ports:
       - '8080:8080'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - db
     env_file: ../.env
     environment:
       - PORT=8080
+      - DATABASE_URL=postgresql://node_chat:node_chat@db/chat_db
+
+volumes:
+  node_chat_db:
+
+networks:
+  db:
